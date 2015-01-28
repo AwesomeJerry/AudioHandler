@@ -11,6 +11,7 @@
 			self.context = new AudioContext();
 			// web audio api mode
 			self.mode = 'waa';
+			// cache buffer
 			self.bufferList = {};
 		} catch (e) {
 			// html5 audio mode
