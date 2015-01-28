@@ -7,6 +7,7 @@ HTML5 &lt;audio> does a terrible job on mobile, especially when playing multiple
 ## Usage
 ```js
 AudioHandler.play(file_url);
+AudioHandler.stop(file_url);
 ```
 
 ## Reference

@@ -13,6 +13,8 @@
 			self.mode = 'waa';
 			// cache buffer
 			self.bufferList = {};
+			// cache source
+			self.sourceList = {};
 		} catch (e) {
 			// html5 audio mode
 			self.mode = 'html';
@@ -27,7 +29,9 @@
 		if (self.mode == 'waa') {
 			var buffer = self.bufferList[url];
 			if (buffer) {
-				self.connect(buffer).start(0);
+				var source = self.connect(buffer);
+				self.sourceList[url] = source;
+				source.start(0);
 			} else {
 				self.load(url);
 			}
@@ -35,6 +39,12 @@
 			self.playByHTML(url);
 			console.debug('Web Audio API is not supported in this browser');
 		}
+	};
+	AudioHandler.prototype.stop = function (url) {
+		var self = this;
+		var context = self.context;
+		var source = self.sourceList[url];
+		source.stop(context.currentTime);
 	};
 	/**
 	 * load audio
@@ -95,7 +105,7 @@
 	 * @param {String} url file_url
 	 */
 	AudioHandler.prototype.playByHTML = function (url) {
-		$('<audio />').attr('src', url).attr('volume', 0.5).get(0).play();
+		$('<audio />').attr('src', url).get(0).play();
 	};
 	
 	// expose AudioHandler to window
